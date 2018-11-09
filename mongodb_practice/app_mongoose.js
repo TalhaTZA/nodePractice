@@ -15,7 +15,7 @@ app.get('/',(req,res)=>{
     res.send('Root');
 });
 
-app.post('/save', async (req,res)=>{
+app.post('/users', async (req,res)=>{
 
     const user=new User({
         firstName: req.body.firstName,
@@ -54,6 +54,22 @@ app.patch('/users/:id',async (req,res)=>{
         
         const UpdatedUser = await User.findOneAndUpdate({_id:id} , {$set: {firstName:firstName}} , {new:true} );
         res.status(201).json(UpdatedUser);
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).send('Bad Request');
+    }
+
+});
+
+app.delete('/users/:id',async (req,res)=>{
+
+    const id=req.params.id;
+
+    try {
+        
+        const deletedUser = await User.findOneAndDelete({_id:id});
+        res.status(201).json(deletedUser);
 
     } catch (error) {
         console.log(error);
