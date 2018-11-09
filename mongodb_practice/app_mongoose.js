@@ -45,6 +45,23 @@ app.get('/users', async (req,res)=>{
     
 });
 
+app.patch('/users/:id',async (req,res)=>{
+
+    const id=req.params.id;
+    const firstName=req.body.firstName;   
+
+    try {
+        
+        const UpdatedUser = await User.findOneAndUpdate({_id:id} , {$set: {firstName:firstName}} , {new:true} );
+        res.status(201).json(UpdatedUser);
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).send('Bad Request');
+    }
+
+});
+
 app.listen(port,(err)=>{
     if(err) {throw err;}
 
