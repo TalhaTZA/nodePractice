@@ -36,6 +36,26 @@ app.post('/register', (req,res)=>{
     });
 });
 
+app.post('/login', async (req,res)=>{
+
+    try {
+        const user = await User.findOne({email:req.body.email});
+        
+        bcrypt.compare(req.body.password , user.password , (err,success)=>{
+            if (err){res.status(400).json(err);}
+
+            if (success) {res.json({success});}
+
+            else {res.json({success});}
+
+        });
+
+    } catch (error) {
+        res.status(400).json(error);
+    }
+
+});
+
 
 app.listen(port,(err)=>{
     if(err){console.log(err);}
